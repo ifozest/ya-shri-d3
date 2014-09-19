@@ -12,9 +12,8 @@ var data = d3.range(20).map(function(datum, interval) {
     color: 'yellow',
     x: interval * 20,
     y: 0,
-    dx: 5,
-    dy: -3 * (Math.random() + 1),
-    mu: Math.random() * 2
+    dx: -3 * (Math.random() + 1),
+    dy: -3 * (Math.random() + 1)
   };
 });
 
@@ -34,7 +33,7 @@ d3.timer(function() {
 
   circle
     .attr("cx", function(d) {
-      d.x += Math.random() * 3 * Math.sin(Math.random() * 3 * d.x + Math.random() * 10);
+      d.x += d.dx;
       if (d.x > width) {
         d.x -= width;
       } else if (d.x < 0) {
