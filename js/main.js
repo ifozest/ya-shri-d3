@@ -7,7 +7,8 @@ var svg = d3.select('#main_content').append('svg')
 
 var data = d3.range(20).map(function(datum, interval) {
   return {
-    fr: 1,//frequency
+    fr: Math.floor((Math.random() * 2000) + 1)/1000*2, //magic random
+    rgbGreen: 255,//default rgb green value for yellow color
     color: 'yellow',
     x: interval * 20,
     y: 0,
@@ -51,24 +52,23 @@ d3.timer(function() {
       return d.y;
     })
     .attr('fill', function(d) {
-      var element = d3.select(this);
-      var color = d.color;
-      var rgb = d3.rgb(element.attr('fill'));
-
-
-
-      if (color === 'yellow' && rgb.g > 165){ //magic
-        rgb.g -= d.fr;
+      if (d.color === 'yellow'){ //magic
+        if ((d.rgbGreen - d.fr) > 165) {
+          d.rgbGreen -= d.fr;
+        } else {
+          d.rgbGreen = 165;
+        }
       } else {
-        rgb.g += d.fr;
+        d.rgbGreen += d.fr;
       }
 
-      if (rgb.g === 255) {
+      if (d.rgbGreen >= 255) {
         d.color = 'yellow';
-      } else if (rgb.g === 165) {
-        d.color = 'orange';
+      } else {
+        if (d.rgbGreen <= 165) {
+          d.color = 'orange';
+        }
       }
-
-      return rgb.toString();
+      return d3.rgb(255, Math.round(d.rgbGreen), 0).toString();
     });
 });
