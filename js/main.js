@@ -5,9 +5,9 @@ var svg = d3.select('#main_content').append('svg')
   .attr('height', height)
   .style('background', 'white');
 
-var data = d3.range(20).map(function(datum, interval) {
+var data = d3.range(50).map(function(datum, interval) {
   return {
-    fr: Math.floor((Math.random() * 2000) + 1)/1000*2, //magic random
+    fr: Math.floor((Math.random() * 2000) + 1) / 1000 * 2, //magic random
     rgbGreen: 255,//default rgb green value for yellow color
     color: 'yellow',
     x: interval * 20,
@@ -24,34 +24,35 @@ var yellow = d3.rgb(255, 255, 0);
 var circle = svg.selectAll('circle')
   .data(data)
   .enter().append('circle')
-  .attr('r', 3)
-  .attr('fill', function(d){
+  .attr('r', 2)
+  .attr('fill', function(d) {
     return d.color;
+  })
+  .on('mouseover', function(d) {
+    d.dx = -3 * (Math.random() + 1);
+    d.dy = -3 * (Math.random() + 1);
   });
+
 
 d3.timer(function() {
 
   circle
     .attr("cx", function(d) {
       d.x += d.dx;
-      if (d.x > width) {
-        d.x -= width;
-      } else if (d.x < 0) {
-        d.x += width;
+      if (d.x > width || d.x < 0) {
+        d.dx = -d.dx;
       }
       return d.x;
     })
     .attr("cy", function(d) {
       d.y += d.dy;
-      if (d.y > height) {
-        d.y -= height;
-      } else if (d.y < 0) {
-        d.y += height;
+      if (d.y > height || d.y < 0) {
+        d.dy = -d.dy;
       }
       return d.y;
     })
     .attr('fill', function(d) {
-      if (d.color === 'yellow'){ //magic
+      if (d.color === 'yellow') { //magic
         if ((d.rgbGreen - d.fr) > 165) {
           d.rgbGreen -= d.fr;
         } else {
