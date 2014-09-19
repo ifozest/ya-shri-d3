@@ -25,7 +25,7 @@ var yellow = d3.rgb(255, 255, 0);
 var circle = svg.selectAll('circle')
   .data(data)
   .enter().append('circle')
-  .attr('r', 10)
+  .attr('r', 3)
   .attr('fill', function(d){
     return d.color;
   });
