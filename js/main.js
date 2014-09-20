@@ -27,10 +27,6 @@ var circle = svg.selectAll('circle')
   .attr('r', 2)
   .attr('fill', function(d) {
     return d.color;
-  })
-  .on('mouseover', function(d) {
-    d.dx = -3 * (Math.random() + 1);
-    d.dy = -3 * (Math.random() + 1);
   });
 
 
