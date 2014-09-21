@@ -5,15 +5,15 @@ var svg = d3.select('#main_content').append('svg')
   .attr('height', height)
   .style('background', 'black');
 
-var data = d3.range(1).map(function(datum, interval) {
+var data = d3.range(50).map(function(datum, interval) {
   return {
     fr: Math.floor((Math.random() * 2000) + 1) / 1000 * 2, //magic random
     rgbGreen: 255,//default rgb green value for yellow color
     color: 'yellow',
-    x: interval * 20,
-    y: 0,
-    dx: -1 * (Math.random() + 1),
-    dy: -1 * (Math.random() + 1)
+    x: Math.random() * width,
+    y: Math.random() * height,
+    dx: (Math.random() * 2 - 1) * (Math.random() + 1),
+    dy: (Math.random() * 2 - 1) * (Math.random() + 1)
   };
 });
 
@@ -58,26 +58,20 @@ var isClosely = function(element) {
   return distance > currentDistance;
 };
 
-var sign = function(x) {
-  return (x > 0) - (x < 0);
-};
-
-
 d3.timer(function() {
-
 
   circle
     .each(function(d) {
       if (isClosely(d)) {
         if (d.x > mousePosition.x) {
-          d.dx = Math.abs(d.dx);
+          d.dx = Math.abs((Math.random() * 2 - 1) * (Math.random() + 1)) * 2;
         } else {
-          d.dx = -Math.abs(d.dx);
+          d.dx = -Math.abs((Math.random() * 2 - 1) * (Math.random() + 1)) * 2;
         }
         if (d.y > mousePosition.y) {
-          d.dy = Math.abs(d.dy);
+          d.dy = Math.abs((Math.random() * 2 - 1) * (Math.random() + 1)) * 2;
         } else {
-          d.dy = -Math.abs(d.dy);
+          d.dy = -Math.abs((Math.random() * 2 - 1) * (Math.random() + 1)) * 2;
         }
       }
     })
