@@ -5,7 +5,7 @@ var svg = d3.select('#main_content').append('svg')
   .attr('height', height)
   .style('background', 'black');
 
-var data = d3.range(30).map(function(datum, interval) {
+var data = d3.range(1).map(function(datum, interval) {
   return {
     fr: Math.floor((Math.random() * 2000) + 1) / 1000 * 2, //magic random
     rgbGreen: 255,//default rgb green value for yellow color
@@ -69,26 +69,15 @@ d3.timer(function() {
   circle
     .each(function(d) {
       if (isClosely(d)) {
-        var multiplier = 1;
-        if (!d.catched) {
-          multiplier = 2;
-          d.catched = true;
-          //if (Math.round(Math.random())) {
-            d.dx = -1 * (sign(d.dx)) * (Math.random() + 1);
-          //} else {
-            d.dy = -1 * (sign(d.dy)) * (Math.random() + 1);
-          //}
-
+        if (d.x > mousePosition.x) {
+          d.dx = Math.abs(d.dx);
+        } else {
+          d.dx = -Math.abs(d.dx);
         }
-        d.dx = d.dx * multiplier;
-        d.dy = d.dy * multiplier;
-
-      } else {
-        if (d.catched) {
-          d.catched = false;
-          d.dx = d.dx / 2;
-          d.dy = d.dy / 2;
-          //d.dy = d.dy/2;
+        if (d.y > mousePosition.y) {
+          d.dy = Math.abs(d.dy);
+        } else {
+          d.dy = -Math.abs(d.dy);
         }
       }
     })
