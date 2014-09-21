@@ -3,19 +3,37 @@ var width = 620, height = 500;
 var svg = d3.select('#main_content').append('svg')
   .attr('width', width)
   .attr('height', height)
-  .style('background', 'white');
+  .style('background', 'black');
 
-var data = d3.range(50).map(function(datum, interval) {
+var data = d3.range(30).map(function(datum, interval) {
   return {
     fr: Math.floor((Math.random() * 2000) + 1) / 1000 * 2, //magic random
     rgbGreen: 255,//default rgb green value for yellow color
     color: 'yellow',
     x: interval * 20,
     y: 0,
-    dx: -3 * (Math.random() + 1),
-    dy: -3 * (Math.random() + 1)
+    dx: -1 * (Math.random() + 1),
+    dy: -1 * (Math.random() + 1)
   };
 });
+
+
+var mousePosition = {
+  x: 0,
+  y: 0
+};
+
+svg.on('mousemove', function() {
+  var mouseXY = d3.mouse(this);
+  mousePosition.x = mouseXY[0];
+  mousePosition.y = mouseXY[1];
+});
+
+svg.on('mouseleave', function() {
+  mousePosition.x = 0;
+  mousePosition.y = 0;
+});
+
 
 var orange = d3.rgb(255, 165, 0);
 var yellow = d3.rgb(255, 255, 0);
@@ -29,20 +47,69 @@ var circle = svg.selectAll('circle')
     return d.color;
   });
 
+var distance = 35;
+
+var isClosely = function(element) {
+  if (mousePosition.x === 0 || mousePosition.y === 0) {
+    return false;
+  }
+
+  var currentDistance = Math.sqrt(Math.pow(element.x - mousePosition.x, 2) + Math.pow(element.y - mousePosition.y, 2));
+  return distance > currentDistance;
+};
+
+var sign = function(x) {
+  return (x > 0) - (x < 0);
+};
+
 
 d3.timer(function() {
 
+
   circle
+    .each(function(d) {
+      if (isClosely(d)) {
+        var multiplier = 1;
+        if (!d.catched) {
+          multiplier = 2;
+          d.catched = true;
+          //if (Math.round(Math.random())) {
+            d.dx = -1 * (sign(d.dx)) * (Math.random() + 1);
+          //} else {
+            d.dy = -1 * (sign(d.dy)) * (Math.random() + 1);
+          //}
+
+        }
+        d.dx = d.dx * multiplier;
+        d.dy = d.dy * multiplier;
+
+      } else {
+        if (d.catched) {
+          d.catched = false;
+          d.dx = d.dx / 2;
+          d.dy = d.dy / 2;
+          //d.dy = d.dy/2;
+        }
+      }
+    })
     .attr("cx", function(d) {
       d.x += d.dx;
-      if (d.x > width || d.x < 0) {
+      if (d.x > width) {
+        d.x = width;
+        d.dx = -d.dx;
+      } else if (d.x < 0) {
+        d.x = 0;
         d.dx = -d.dx;
       }
       return d.x;
     })
     .attr("cy", function(d) {
       d.y += d.dy;
-      if (d.y > height || d.y < 0) {
+      if (d.y > height) {
+        d.y = height;
+        d.dy = -d.dy;
+      } else if (d.y < 0) {
+        d.y = 0;
         d.dy = -d.dy;
       }
       return d.y;
