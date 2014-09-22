@@ -16,7 +16,7 @@
     .attr('height', height)
     .style('background', 'black');
 
-  var data = d3.range(50).map(function(datum, interval) {
+  var data = d3.range(50).map(function() {
     return {
       fr: Math.floor((Math.random() * 2000) + 1) / 1000 * 2, //magic random
       rgbGreen: rgbYellow,//default rgb green value for yellow color
