@@ -31,7 +31,8 @@
     if (mousePosition.x === -1 && mousePosition.y === -1) {
       return false;
     }
-    var currentDistance = Math.sqrt(Math.pow(element.x - mousePosition.x, 2) + Math.pow(element.y - mousePosition.y, 2));
+    var currentDistance = Math.sqrt(
+      Math.pow(element.x - mousePosition.x, 2) + Math.pow(element.y - mousePosition.y, 2));
     return distance > currentDistance;
   };
 
@@ -67,7 +68,7 @@
     .attr('r', radius)
     .attr('fill', 'yellow');
 
-  var changeDirection = function(d) {
+  var handleMousePosition = function(d) {
     if (isClosely(d)) {
       if (d.x > mousePosition.x) {
         d.dx = Math.abs(randMovementSpeed(2));
@@ -133,11 +134,10 @@
 
   d3.timer(function() {
     circles
-      .each(changeDirection)
+      .each(handleMousePosition)
       .attr('cx', changeX)
       .attr('cy', changeY)
       .attr('fill', changeColor);
   });
 
 })(d3);
-
