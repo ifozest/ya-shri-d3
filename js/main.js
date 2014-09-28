@@ -71,14 +71,14 @@
   var handleMousePosition = function(d) {
     if (isClosely(d)) {
       if (d.x > mousePosition.x) {
-        d.dx = Math.abs(randMovementSpeed(2));
+        d.dx = Math.abs(randMovementSpeed(1.5));
       } else {
-        d.dx = -Math.abs(randMovementSpeed(2));
+        d.dx = -Math.abs(randMovementSpeed(1.5));
       }
       if (d.y > mousePosition.y) {
-        d.dy = Math.abs(randMovementSpeed(2));
+        d.dy = Math.abs(randMovementSpeed(1.5));
       } else {
-        d.dy = -Math.abs(randMovementSpeed(2));
+        d.dy = -Math.abs(randMovementSpeed(1.5));
       }
     }
   };
