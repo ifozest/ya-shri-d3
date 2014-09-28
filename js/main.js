@@ -1,6 +1,6 @@
 (function(d3) {
 
-  var RGB_ORANGE = 165
+  var RGB_RED = 0
     , RGB_YELLOW = 255
     , width = 620
     , height = 500
@@ -53,7 +53,7 @@
   var data = d3.range(dotsCount).map(function() {
     return {
       fr: randColorFrequency(),
-      rgbGreen: randomFromInterval(RGB_ORANGE, RGB_YELLOW),
+      rgbGreen: randomFromInterval(RGB_RED, RGB_YELLOW),
       saturate: true,
       x: Math.random() * width,
       y: Math.random() * height,
@@ -109,10 +109,10 @@
 
   var changeColor = function(d) {
     if (d.saturate) {
-      if ((d.rgbGreen - d.fr) > RGB_ORANGE) {
+      if ((d.rgbGreen - d.fr) > RGB_RED) {
         d.rgbGreen -= d.fr;
       } else {
-        d.rgbGreen = RGB_ORANGE;
+        d.rgbGreen = RGB_RED;
       }
     } else {
       if ((d.rgbGreen - d.fr) < RGB_YELLOW) {
@@ -124,7 +124,7 @@
     if (d.rgbGreen >= RGB_YELLOW) {
       d.saturate = true;
     } else {
-      if (d.rgbGreen <= RGB_ORANGE) {
+      if (d.rgbGreen <= RGB_RED) {
         d.saturate = false;
       }
     }
