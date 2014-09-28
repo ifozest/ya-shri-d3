@@ -142,7 +142,7 @@
         d.rgbGreen = RGB_RED;
       }
     } else {
-      if ((d.rgbGreen - d.fr) < RGB_YELLOW) {
+      if ((d.rgbGreen + d.fr) < RGB_YELLOW) {
         d.rgbGreen += d.fr;
       } else {
         d.rgbGreen = RGB_YELLOW;
