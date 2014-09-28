@@ -2,6 +2,9 @@
 
   var RGB_RED = 0
     , RGB_YELLOW = 255
+    , circles
+    , data
+    , svg
     , width = 620
     , height = 500
     , dotsCount = 50
@@ -27,16 +30,7 @@
     return randomFromInterval(min, max);
   };
 
-  var isClosely = function(element) {
-    if (mousePosition.x === -1 && mousePosition.y === -1) {
-      return false;
-    }
-    var currentDistance = Math.sqrt(
-      Math.pow(element.x - mousePosition.x, 2) + Math.pow(element.y - mousePosition.y, 2));
-    return distance > currentDistance;
-  };
-
-  var svg = d3.select('#main_content').append('svg')
+  svg = d3.select('#main_content').append('svg')
     .attr('width', width)
     .attr('height', height)
     .style('background', 'black')
@@ -50,7 +44,7 @@
       mousePosition.y = 0;
     });
 
-  var data = d3.range(dotsCount).map(function() {
+  data = d3.range(dotsCount).map(function() {
     return {
       fr: randColorFrequency(),
       rgbGreen: randomFromInterval(RGB_RED, RGB_YELLOW),
@@ -62,12 +56,30 @@
     };
   });
 
-  var circles = svg.selectAll('circle')
+  circles = svg.selectAll('circle')
     .data(data)
     .enter().append('circle')
     .attr('r', radius)
     .attr('fill', 'yellow');
 
+  /**
+   * Checks that circle is near mouse
+   * @param element - circle data
+   * @returns {boolean} - is circle near mouse
+   */
+  var isClosely = function(element) {
+    if (mousePosition.x === -1 && mousePosition.y === -1) {
+      return false;
+    }
+    var currentDistance = Math.sqrt(
+      Math.pow(element.x - mousePosition.x, 2) + Math.pow(element.y - mousePosition.y, 2));
+    return distance > currentDistance;
+  };
+
+  /**
+   * based on mouse position changes circle direction and *speed*
+   * @param d - circle data
+   */
   var handleMousePosition = function(d) {
     if (isClosely(d)) {
       if (d.x > mousePosition.x) {
@@ -83,6 +95,11 @@
     }
   };
 
+  /**
+   * changes circle X position
+   * @param d - circle data
+   * @returns {number} - new circle x position
+   */
   var changeX = function(d) {
     d.x += d.dx;
     if (d.x > width - radius) {
@@ -95,6 +112,11 @@
     return d.x;
   };
 
+  /**
+   * changes circle Y position
+   * @param d - circle data
+   * @returns {number} - new circle y position
+   */
   var changeY = function(d) {
     d.y += d.dy;
     if (d.y > height - radius) {
@@ -107,6 +129,11 @@
     return d.y;
   };
 
+  /**
+   * changes circle color
+   * @param d - circle data
+   * @returns {string} - new hexadecimal color value
+   */
   var changeColor = function(d) {
     if (d.saturate) {
       if ((d.rgbGreen - d.fr) > RGB_RED) {
