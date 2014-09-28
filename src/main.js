@@ -140,19 +140,14 @@
         d.rgbGreen -= d.fr;
       } else {
         d.rgbGreen = RGB_RED;
+        d.saturate = false;
       }
     } else {
       if ((d.rgbGreen + d.fr) < RGB_YELLOW) {
         d.rgbGreen += d.fr;
       } else {
         d.rgbGreen = RGB_YELLOW;
-      }
-    }
-    if (d.rgbGreen >= RGB_YELLOW) {
-      d.saturate = true;
-    } else {
-      if (d.rgbGreen <= RGB_RED) {
-        d.saturate = false;
+        d.saturate = true;
       }
     }
     return d3.rgb(255, Math.round(d.rgbGreen), 0).toString();
